@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sistemaControl", "sistemaControl\sistemaControl.csproj", "{0ABD155B-4F34-4678-A387-7E687CB7F8B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0ABD155B-4F34-4678-A387-7E687CB7F8B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ABD155B-4F34-4678-A387-7E687CB7F8B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ABD155B-4F34-4678-A387-7E687CB7F8B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ABD155B-4F34-4678-A387-7E687CB7F8B7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {494FF4A5-4936-42CB-82FC-DC914EF39322}
+	EndGlobalSection
+EndGlobal
