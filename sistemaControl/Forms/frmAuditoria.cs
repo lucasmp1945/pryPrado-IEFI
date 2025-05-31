@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace sistemaControl
+namespace sistemaControl.Forms
 {
-    public partial class Form1 : Form
+    public partial class frmAuditoria : Form
     {
-        public Form1()
+        public frmAuditoria()
         {
             InitializeComponent();
         }
