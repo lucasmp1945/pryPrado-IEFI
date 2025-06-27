@@ -93,7 +93,7 @@
             this.lblMensajeFondo.AutoSize = true;
             this.lblMensajeFondo.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMensajeFondo.ForeColor = System.Drawing.SystemColors.ControlDark;
-            this.lblMensajeFondo.Location = new System.Drawing.Point(268, 197);
+            this.lblMensajeFondo.Location = new System.Drawing.Point(280, 201);
             this.lblMensajeFondo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMensajeFondo.Name = "lblMensajeFondo";
             this.lblMensajeFondo.Size = new System.Drawing.Size(369, 73);
@@ -121,7 +121,7 @@
             this.Controls.Add(this.lblMensajeFondo);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmPrincipal";
             this.Text = "Sistema Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmPrincipal_FormClosing);
