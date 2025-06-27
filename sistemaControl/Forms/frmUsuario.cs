@@ -188,8 +188,11 @@ namespace sistemaControl.Forms
             return true;
         }
 
+
         private void frmUsuario_Load(object sender, EventArgs e)
         {
+
+            HabilitarControles(false);
             var niveles = new List<KeyValuePair<int, string>>
             {
                 new KeyValuePair<int, string>(1, "Administrador"),
