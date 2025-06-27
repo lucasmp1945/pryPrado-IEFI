@@ -58,14 +58,14 @@ namespace sistemaControl.Models
         {
             Usuario user = null;
 
-            using (SqlConnection conn = conexion.ObtenerConexion())
+            using (SqlConnection connection = conexion.ObtenerConexion())
             {
                 string query = @"SELECT * FROM usuarios WHERE idUsuario = @id";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, connection);
                 cmd.Parameters.AddWithValue("@id", idUsuario);
 
-                conn.Open();
+                connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 if (reader.Read())
@@ -75,7 +75,7 @@ namespace sistemaControl.Models
                         IdUsuario = (int)reader["idUsuario"],
                         Nombre = reader["nombre"].ToString(),
                         Apellido = reader["apellido"].ToString(),
-                        UsuarioNombre = reader["usuario"].ToString(),
+                        User = reader["usuario"].ToString(),
                         Contrasena = reader["contrasena"].ToString(),
                         UltimoLogin = reader["ultimoLogin"] == DBNull.Value ? null : (DateTime?)reader["ultimoLogin"],
                         Nivel = (int)reader["nivel"],
@@ -86,6 +86,116 @@ namespace sistemaControl.Models
 
             return user;
         }
+
+
+
+
+        public bool Insertar(Usuario usuario)
+        {
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                string query = @"INSERT INTO usuarios (nombre, apellido, nroDoc, fecNacimiento, usuario, contrasena, nivel, vigente)
+                         VALUES (@nombre, @apellido, @nroDoc, @fecNacimiento, @usuario, @contrasena, @nivel, @vigente)";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@nombre", usuario.Nombre);
+                cmd.Parameters.AddWithValue("@apellido", usuario.Apellido);
+                cmd.Parameters.AddWithValue("@nroDoc", usuario.NroDoc);
+                cmd.Parameters.AddWithValue("@fecNacimiento", usuario.FecNacimiento);
+                cmd.Parameters.AddWithValue("@usuario", usuario.User);
+                cmd.Parameters.AddWithValue("@contrasena", usuario.Contrasena);
+                cmd.Parameters.AddWithValue("@nivel", usuario.Nivel);
+                cmd.Parameters.AddWithValue("@vigente", usuario.Vigente);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+
+        public bool Actualizar(Usuario usuario)
+        {
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                string query = @"UPDATE usuarios 
+                         SET nombre = @nombre,
+                             apellido = @apellido,
+                             nroDoc = @nroDoc,
+                             fecNacimiento = @fecNacimiento,
+                             usuario = @usuario,
+                             contrasena = @contrasena,
+                             nivel = @nivel,
+                             vigente = @vigente
+                         WHERE idUsuario = @id";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@nombre", usuario.Nombre);
+                cmd.Parameters.AddWithValue("@apellido", usuario.Apellido);
+                cmd.Parameters.AddWithValue("@nroDoc", usuario.NroDoc);
+                cmd.Parameters.AddWithValue("@fecNacimiento", usuario.FecNacimiento);
+                cmd.Parameters.AddWithValue("@usuario", usuario.User);
+                cmd.Parameters.AddWithValue("@contrasena", usuario.Contrasena);
+                cmd.Parameters.AddWithValue("@nivel", usuario.Nivel);
+                cmd.Parameters.AddWithValue("@vigente", usuario.Vigente);
+                cmd.Parameters.AddWithValue("@id", usuario.IdUsuario);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+
+        public bool Eliminar(int idUsuario)
+        {
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                string query = @"UPDATE usuarios SET vigente = 0 WHERE idUsuario = @id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", idUsuario);
+
+                conn.Open();
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
+
+        public List<Usuario> ObtenerTodosLosUsuarios()
+        {
+            var usuarios = new List<Usuario>();
+
+            using (SqlConnection connection = conexion.ObtenerConexion())
+            {
+                string query = @"SELECT * FROM usuarios ORDER BY apellido, nombre;";
+
+                SqlCommand cmd = new SqlCommand(query, connection);
+                connection.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var usuario = new Usuario
+                    {
+                        IdUsuario = (int)reader["idUsuario"],
+                        Nombre = reader["nombre"].ToString(),
+                        Apellido = reader["apellido"].ToString(),
+                        NroDoc = reader["nroDoc"].ToString(),
+                        FecNacimiento = (DateTime)reader["fecNacimiento"],
+                        User = reader["usuario"].ToString(),
+                        Contrasena = reader["contrasena"].ToString(),
+                        UltimoLogin = reader["ultimoLogin"] == DBNull.Value ? null : (DateTime?)reader["ultimoLogin"],
+                        Nivel = (int)reader["nivel"],
+                        Vigente = (bool)reader["vigente"]
+                    };
+
+                    usuarios.Add(usuario);
+                }
+            }
+
+            return usuarios;
+        }
+
+
 
     }
 }

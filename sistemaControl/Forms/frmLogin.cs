@@ -38,5 +38,10 @@ namespace sistemaControl.Forms
                 MessageBox.Show("Usuario o contraseña incorrectos.");
             }
         }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

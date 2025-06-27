@@ -11,10 +11,15 @@ namespace sistemaControl.Model
         public int IdUsuario { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public string UsuarioNombre { get; set; }
+        public string NroDoc { get; set; }
+        public DateTime FecNacimiento { get; set; }
+        public string User { get; set; }
         public string Contrasena { get; set; }
         public DateTime? UltimoLogin { get; set; }
         public int Nivel { get; set; }
         public bool Vigente { get; set; }
+        public string NombreCompleto => $"{Apellido}, {Nombre}";
+
+
     }
 }
