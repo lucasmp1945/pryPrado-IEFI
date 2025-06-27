@@ -14,14 +14,17 @@ namespace sistemaControl.Forms
 {
     public partial class frmUsuario : Form
     {
-
+        private bool esAdmin;
+        private Usuario usuarioActual;
         private bool esNuevo = false;
         private Usuario usuarioSeleccionado;
         private UsuarioRepository usuarioRepository = new UsuarioRepository();
 
-        public frmUsuario()
+        public frmUsuario(Usuario usuario, bool esAdministrador)
         {
             InitializeComponent();
+            this.usuarioActual = usuario;
+            this.esAdmin = esAdministrador;
         }
 
         private void btnVerGrilla_Click(object sender, EventArgs e)
@@ -47,12 +50,20 @@ namespace sistemaControl.Forms
             txtNombre.Text = u.Nombre;
             txtApellido.Text = u.Apellido;
             txtNroDocumento.Text = u.NroDoc;
-            dtmFechaNacimiento.Value = u.FecNacimiento;
+
+            if (u.FecNacimiento < dtmFechaNacimiento.MinDate)
+                dtmFechaNacimiento.Value = DateTime.Today;
+            else
+                dtmFechaNacimiento.Value = u.FecNacimiento;
+
             txtUsuario.Text = u.User;
             txtContrasenia.Text = u.Contrasena;
             cbActivo.Checked = u.Vigente;
-            cmbNivel.SelectedIndex = u.Nivel - 1;
+
+            if (u.Nivel >= 1 && u.Nivel <= cmbNivel.Items.Count)
+                cmbNivel.SelectedIndex = u.Nivel - 1;
         }
+
 
 
         private void btnNuevo_Click(object sender, EventArgs e)
@@ -191,8 +202,7 @@ namespace sistemaControl.Forms
 
         private void frmUsuario_Load(object sender, EventArgs e)
         {
-
-            HabilitarControles(false);
+           
             var niveles = new List<KeyValuePair<int, string>>
             {
                 new KeyValuePair<int, string>(1, "Administrador"),
@@ -203,6 +213,33 @@ namespace sistemaControl.Forms
             cmbNivel.DisplayMember = "Value";
             cmbNivel.ValueMember = "Key";
             cmbNivel.SelectedIndex = 0;
+
+           
+            HabilitarControles(false);
+
+            if (!esAdmin)
+            {
+       
+                btnVerGrilla.Enabled = false;
+                btnVerGrilla.Visible = false;
+
+                btnNuevo.Enabled = false;
+                btnNuevo.Visible = false;
+
+                btnEliminar.Enabled = false;
+                btnModificar.Enabled = false;
+
+
+                if (usuarioActual != null)
+                {
+                    CargarDatosEnFormulario(usuarioActual);
+                    usuarioSeleccionado = usuarioActual; 
+                }
+
+                txtUsuario.Enabled = false;
+                cmbNivel.Enabled = false;
+            }
         }
+
     }
 }

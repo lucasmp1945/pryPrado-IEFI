@@ -58,6 +58,7 @@
     <Compile Include="Forms\frmUsuario.Designer.cs">
       <DependentUpon>frmUsuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuditoriaDTO.cs" />
     <Compile Include="Repositories\auditoriaRepository.cs" />
     <Compile Include="Repositories\usuarioRepository.cs" />
     <Compile Include="Repositories\conexion.cs" />

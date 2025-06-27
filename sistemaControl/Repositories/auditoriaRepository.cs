@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using sistemaControl.dataBase;
+using sistemaControl.Models;
 
 namespace sistemaControl.Repositories
 {
@@ -48,6 +49,49 @@ namespace sistemaControl.Repositories
                 cmd.ExecuteNonQuery();
             }
         }
+
+
+        public List<AuditoriaDTO> FiltrarAuditoria(DateTime desde, DateTime hasta, int? idUsuario)
+        {
+            var lista = new List<AuditoriaDTO>();
+
+            using (SqlConnection conn = conexion.ObtenerConexion())
+            {
+                string query = @"SELECT a.fecha, a.tiempoUso, u.nombre, u.apellido
+                         FROM auditoriaUsuarios a
+                         INNER JOIN usuarios u ON a.idUsuario = u.idUsuario
+                         WHERE a.fecha BETWEEN @desde AND @hasta";
+
+                if (idUsuario.HasValue)
+                    query += " AND a.idUsuario = @idUsuario";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@desde", desde);
+                cmd.Parameters.AddWithValue("@hasta", hasta);
+
+                if (idUsuario.HasValue)
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario.Value);
+
+                conn.Open();
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var item = new AuditoriaDTO
+                    {
+                        Fecha = reader["fecha"] != DBNull.Value ? (DateTime)reader["fecha"] : DateTime.MinValue,
+                        TiempoUso = reader["tiempoUso"] != DBNull.Value ? Convert.ToInt32(reader["tiempoUso"]) : 0,
+                        NombreUsuario = $"{reader["apellido"]}, {reader["nombre"]}"
+                    };
+
+                    lista.Add(item);
+                }
+
+            }
+
+            return lista;
+        }
+
 
 
     }

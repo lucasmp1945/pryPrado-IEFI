@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -20,6 +21,7 @@ namespace sistemaControl.Forms
         private Timer timer;
         private int idAuditoria;
         private Usuario usuario;
+        public bool esAdministrador  = false;
 
 
         public frmPrincipal(int idUsuario)
@@ -53,6 +55,14 @@ namespace sistemaControl.Forms
         {
             var repo = new UsuarioRepository();
             Usuario user = repo.ObtenerPorId(idUsuario);
+            if (user.Nivel == 1)
+            {
+                esAdministrador = true;
+            }
+            else
+            {
+                esAdministrador = false;
+            }
             lblMensajeFondo.Text = "Bienvenido " + user.Nombre;
             lblMensajeFondo.Left = (this.ClientSize.Width - lblMensajeFondo.Width) / 2;
             lblMensajeFondo.Top = (this.ClientSize.Height - lblMensajeFondo.Height) / 2;
@@ -61,13 +71,13 @@ namespace sistemaControl.Forms
 
         private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var usu = new frmUsuario();
-            usu.Show();
+            var frmUsuario = new frmUsuario(usuarioActual, esAdministrador);
+            frmUsuario.Show();
         }
 
         private void auditoriaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var auditoria = new frmAuditoria();
+            var auditoria = new frmAuditoria(usuarioActual, esAdministrador);
             auditoria.Show();
         }
 
